@@ -1,0 +1,8 @@
+{
+  "name": "Casa Milano Gaming Café",
+  "description": "Premium gaming lounge and cinematic interactive experience featuring championship snooker, PS5 pods, racing simulators, retro arcade, and gourmet café.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

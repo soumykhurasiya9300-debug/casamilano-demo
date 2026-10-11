@@ -1,0 +1,370 @@
+.folder-root {
+  --folder-scale: 1;
+  --folder-w: 224px;
+  --folder-h: 176px;
+  --folder-tab-h: 20px;
+  --folder-front-h: 176px;
+  --folder-front-y: 20px;
+  --folder-r: 12px;
+  --folder-doc-w: 120px;
+  --folder-doc-h: 146px;
+  --folder-frost: 2px;
+  --folder-depth: 1200px;
+  --folder-base: #06b6d4;
+  --folder-paper: #090e1f;
+  --folder-paper-ink: rgba(255, 255, 255, 0.4);
+  --folder-paper-ink-strong: #ffffff;
+  --folder-paper-text: #cbd5e1;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  perspective: var(--folder-depth);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+.folder-stage {
+  position: relative;
+  width: var(--folder-w);
+  height: calc(var(--folder-tab-h) + var(--folder-h));
+  transform-style: preserve-3d;
+  cursor: pointer;
+  outline: none;
+}
+
+.folder-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  transform-origin: 0 0;
+}
+
+.folder-ground {
+  position: absolute;
+  bottom: 0;
+  left: -20%;
+  width: 140%;
+  height: 24px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.6) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.folder-cast {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.folder-back {
+  width: var(--folder-w);
+  height: calc(var(--folder-tab-h) + var(--folder-h));
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.folder-back-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--folder-inside-top, #080d1d), var(--folder-inside-bottom, #04070e));
+}
+
+.folder-back-rim {
+  position: absolute;
+  inset: 0;
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.12);
+  stroke-width: 1px;
+}
+
+.folder-gutter {
+  position: absolute;
+  left: 0;
+  top: var(--folder-tab-h);
+  bottom: 0;
+  width: 16px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.4), transparent);
+  opacity: var(--folder-gutter, 0);
+}
+
+.folder-tab-text {
+  position: absolute;
+  top: 0;
+  height: var(--folder-tab-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(11px * var(--folder-scale));
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--folder-tab-ink, #ffffff);
+  opacity: var(--folder-label, 1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 8px;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.folder-measure {
+  visibility: hidden;
+  position: absolute;
+  left: -9999px;
+}
+
+.folder-front {
+  width: var(--folder-w);
+  height: var(--folder-front-h);
+  transform-origin: 0 0;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.folder-front[data-face="outer"] .folder-face-inner {
+  display: none !important;
+}
+
+.folder-front[data-face="inner"] .folder-face-outer {
+  display: none !important;
+}
+
+.folder-face {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--folder-front-radius, 12px);
+  box-sizing: border-box;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.folder-face-outer {
+  background: linear-gradient(135deg, var(--folder-front-top, #0a1124), var(--folder-front-bottom, #050812));
+  border: 1px solid rgba(6, 182, 212, 0.45);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 0 20px rgba(6, 182, 212, 0.15);
+  transform: translateZ(1px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  overflow: hidden;
+}
+
+.folder-cover-branding {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.folder-cover-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  background: rgba(6, 182, 212, 0.12);
+  border: 1px solid rgba(6, 182, 212, 0.4);
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+}
+
+.folder-cover-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00f0ff;
+  box-shadow: 0 0 8px #00f0ff;
+}
+
+.folder-cover-text {
+  font-size: calc(11px * var(--folder-scale));
+  font-weight: 800;
+  font-family: inherit;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.folder-cover-sub {
+  font-size: calc(9px * var(--folder-scale));
+  font-family: monospace;
+  letter-spacing: 0.15em;
+  color: rgba(6, 182, 212, 0.85);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.folder-cover-lines {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  margin-top: 6px;
+  width: 60%;
+}
+
+.folder-cover-line {
+  height: 2px;
+  width: 100%;
+  background: rgba(6, 182, 212, 0.3);
+  border-radius: 1px;
+}
+
+.folder-cover-line.short {
+  width: 60%;
+  background: rgba(6, 182, 212, 0.18);
+}
+
+.folder-face-inner {
+  background: var(--folder-inside-bottom, #050812);
+  transform: rotateY(180deg) translateZ(1px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.folder-inner-gutter {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 16px;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.5), transparent);
+}
+
+.folder-glass {
+  position: absolute;
+  pointer-events: none;
+}
+
+.folder-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--folder-doc-w);
+  height: var(--folder-doc-h);
+  transform-origin: 50% 50%;
+  cursor: grab;
+  touch-action: none;
+  outline: none;
+}
+
+.folder-item:active {
+  cursor: grabbing;
+}
+
+.folder-doc {
+  width: 100%;
+  height: 100%;
+  background: var(--folder-paper, #090e1f);
+  border-radius: calc(10px * var(--folder-scale));
+  padding: calc(14px * var(--folder-scale));
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: calc(6px * var(--folder-scale));
+  border: 1px solid rgba(6, 182, 212, 0.25);
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.6),
+    0 2px 6px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.folder-doc:hover {
+  border-color: rgba(6, 182, 212, 0.55);
+  box-shadow: 
+    0 12px 32px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(6, 182, 212, 0.2);
+}
+
+.folder-doc-title {
+  font-size: calc(11px * var(--folder-scale));
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--folder-paper-ink-strong, #ffffff);
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+}
+
+.folder-doc-heading {
+  width: 60%;
+  height: calc(10px * var(--folder-scale));
+  background: var(--folder-paper-ink-strong, #ffffff);
+  border-radius: 3px;
+}
+
+.folder-doc-text {
+  font-size: calc(9.5px * var(--folder-scale));
+  color: var(--folder-paper-text, #cbd5e1);
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+.folder-doc-line {
+  height: calc(3px * var(--folder-scale));
+  background: var(--folder-paper-ink, rgba(255, 255, 255, 0.2));
+  border-radius: 2px;
+  opacity: 0.35;
+}
+
+.folder-doc-block {
+  height: calc(16px * var(--folder-scale));
+  width: 100%;
+  background: var(--folder-paper-ink, rgba(255, 255, 255, 0.15));
+  border-radius: 3px;
+  opacity: 0.15;
+  margin: calc(4px * var(--folder-scale)) 0;
+}
+
+.folder-photo {
+  width: 100%;
+  height: 100%;
+  border-radius: calc(10px * var(--folder-scale));
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.folder-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Rich Review Card Formation inside Folder */
+.folder-review-card {
+  width: 100%;
+  height: 100%;
+  background: #090e1f;
+  border-radius: calc(10px * var(--folder-scale));
+  padding: calc(12px * var(--folder-scale));
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.65),
+    inset 0 0 15px rgba(6, 182, 212, 0.05);
+  overflow: hidden;
+}
+
+.folder-review-card:hover {
+  border-color: rgba(6, 182, 212, 0.6);
+  box-shadow: 
+    0 12px 30px rgba(0, 0, 0, 0.8),
+    0 0 25px rgba(6, 182, 212, 0.25);
+}

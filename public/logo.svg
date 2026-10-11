@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <circle cx="50" cy="50" r="46" fill="#050811" stroke="#00F0FF" stroke-width="3" />
+  <circle cx="50" cy="50" r="40" fill="#090E1F" />
+  <!-- Stylized CM Monogram -->
+  <path d="M 38 32 C 26 32 24 44 24 50 C 24 56 26 68 38 68 C 44 68 47 64 48 61" stroke="#00F0FF" stroke-width="4.5" stroke-linecap="round" fill="none" />
+  <path d="M 52 68 L 52 35 L 63 52 L 74 35 L 74 68" stroke="#00F0FF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  <!-- Cyan Accent Node -->
+  <circle cx="50" cy="22" r="3" fill="#00F0FF" />
+</svg>
