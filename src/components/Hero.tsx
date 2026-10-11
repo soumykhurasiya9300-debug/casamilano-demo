@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowDown, MapPin, Gamepad2 } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ArrowDown, MapPin, Gamepad2, Play, Pause } from 'lucide-react';
 import { soundManager } from '../utils/audio';
 
 interface HeroProps {
@@ -8,6 +8,8 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -20,6 +22,19 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
+
+  const togglePlay = () => {
+    soundManager.playSelect();
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+        setIsPlaying(true);
+      } else {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
+    }
+  };
 
   const handleExploreClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -42,26 +57,27 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
   return (
     <section 
       id="hero" 
-      className="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden bg-[#050811] bg-cover bg-center bg-no-repeat"
-      style={{
-        backgroundImage: `linear-gradient(180deg, rgba(5, 8, 17, 0.78) 0%, rgba(5, 8, 17, 0.48) 50%, rgba(5, 8, 17, 0.96) 100%), url('/images/hero-bg.jpg')`
-      }}
+      className="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden bg-[#050811]"
     >
-      {/* High-Resolution Dynamic Backdrop Layer with Parallax */}
+      {/* High-Resolution Dynamic Backdrop Video Layer with Parallax */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <img
-          src="/images/hero-bg.jpg"
-          onError={(e) => {
-            (e.currentTarget as HTMLImageElement).src = 'https://i.pinimg.com/originals/bb/f7/5e/bbf75e704a0404a798e6cc814aa43f71.jpg';
-          }}
-          alt="Casa Milano Hero Atmosphere"
-          className="w-full h-full object-cover object-center filter brightness-[0.48] contrast-[1.12] transition-transform duration-700 ease-out"
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          poster="/images/hero-video-poster.jpg"
+          className="w-full h-full object-cover object-center filter brightness-[0.55] contrast-[1.14] transition-transform duration-700 ease-out"
           style={{
             transform: `scale(1.06) translate(${mousePos.x * -10}px, ${mousePos.y * -10}px)`
           }}
-        />
+        >
+          <source src="/videos/hero-bg.mp4" type="video/mp4" />
+        </video>
         {/* Soft Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050811] via-transparent to-[#050811]/80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050811] via-[#050811]/35 to-[#050811]/80" />
         <div className="absolute inset-0 bg-radial-gradient from-transparent via-[#050811]/40 to-[#050811]/90" />
       </div>
 
@@ -148,6 +164,23 @@ export const Hero: React.FC<HeroProps> = ({ onOpenBooking }) => {
           </div>
         </div>
 
+      </div>
+
+      {/* Ambient Video Indicator & Interactive Playback Toggle */}
+      <div className="absolute bottom-6 right-6 z-20">
+        <button
+          onClick={togglePlay}
+          aria-label={isPlaying ? "Pause background video" : "Play background video"}
+          className="px-3.5 py-1.5 rounded-full bg-slate-900/80 hover:bg-slate-800/90 border border-white/10 hover:border-cyan-400/50 backdrop-blur-md text-[11px] font-mono tracking-wider text-slate-300 hover:text-white flex items-center gap-2 transition-all duration-200 group shadow-lg cursor-pointer"
+        >
+          <span className={`w-2 h-2 rounded-full ${isPlaying ? 'bg-cyan-400 animate-pulse' : 'bg-amber-400'}`} />
+          <span className="hidden sm:inline">{isPlaying ? 'CINEMATIC VIDEO' : 'VIDEO PAUSED'}</span>
+          {isPlaying ? (
+            <Pause className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform" />
+          ) : (
+            <Play className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform" />
+          )}
+        </button>
       </div>
 
     </section>
