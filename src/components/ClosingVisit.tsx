@@ -9,7 +9,9 @@ import {
   Check, 
   Navigation, 
   Gamepad2, 
-  ExternalLink 
+  ExternalLink,
+  MessageCircle,
+  Instagram 
 } from 'lucide-react';
 import { soundManager } from '../utils/audio';
 import DodgeField from './DodgeField';
@@ -21,7 +23,7 @@ interface ClosingVisitProps {
 export const ClosingVisit: React.FC<ClosingVisitProps> = ({ onOpenBooking }) => {
   const [copiedAddress, setCopiedAddress] = useState(false);
 
-  const addressText = "Casa Milano Gaming Café, Level 2, Metro Promenade Complex";
+  const addressText = "Casa Milano Gaming Café, 3rd Floor, VV Tower, Ideal Hills, Adarsh Nagar";
 
   const handleCopyAddress = () => {
     soundManager.playBlip(600);
@@ -146,16 +148,16 @@ export const ClosingVisit: React.FC<ClosingVisitProps> = ({ onOpenBooking }) => 
                   Casa Milano Lounge
                 </h3>
                 <p className="text-sm text-slate-300 leading-relaxed mb-4">
-                  Level 2, Metro Promenade Complex<br />
-                  Central Avenue, Milano Hub<br />
-                  <span className="text-xs text-slate-400">Valet parking & secure underground bays available</span>
+                  3rd Floor, VV Tower, Ideal Hills<br />
+                  Adarsh Nagar<br />
+                  <span className="text-xs text-[#dfba67]">Snooker • Gaming • Gourmet Café</span>
                 </p>
               </div>
 
               <div className="flex flex-wrap items-center gap-2 pt-2">
                 <button
                   onClick={handleCopyAddress}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-200 bg-slate-800/80 hover:bg-slate-700/80 rounded-lg border border-slate-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-200 bg-slate-800/80 hover:bg-slate-700/80 rounded-lg border border-slate-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 cursor-pointer"
                 >
                   {copiedAddress ? <Check className="w-3.5 h-3.5 text-cyan-400" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{copiedAddress ? 'Address Copied' : 'Copy Address'}</span>
@@ -164,7 +166,7 @@ export const ClosingVisit: React.FC<ClosingVisitProps> = ({ onOpenBooking }) => 
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressText)}`}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-cyan-400 bg-cyan-950/40 hover:bg-cyan-900/40 rounded-lg border border-cyan-800/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-cyan-400 bg-cyan-950/40 hover:bg-cyan-900/40 rounded-lg border border-cyan-800/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 cursor-pointer"
                 >
                   <Navigation className="w-3.5 h-3.5" />
                   <span>Get Directions</span>
@@ -201,33 +203,67 @@ export const ClosingVisit: React.FC<ClosingVisitProps> = ({ onOpenBooking }) => 
               </div>
             </div>
 
-            {/* Column 3: Direct Concierge & Inquiries */}
+            {/* Column 3: Direct Concierge, WhatsApp & Instagram */}
             <div className="flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-cyan-400 mb-3">
                   <Phone className="w-4 h-4" />
-                  <span>CONCIERGE & BOOKINGS</span>
+                  <span>DIRECT CONNECT & SOCIAL</span>
                 </div>
                 <h3 className="text-xl font-bold font-display uppercase tracking-wide text-white mb-2">
-                  Direct Line
+                  Official Channels
                 </h3>
                 <p className="text-sm text-slate-300 leading-relaxed mb-4">
-                  For private bay reservations, tournaments, or VIP suite rentals:
+                  Connect instantly with our concierge on WhatsApp or follow daily highlights:
                 </p>
-                <div className="space-y-2">
+                <div className="space-y-2.5">
+                  {/* WhatsApp Line */}
                   <a 
-                    href="tel:+15557284668" 
-                    className="flex items-center gap-2 text-sm text-slate-200 hover:text-cyan-400 transition-colors font-mono py-1"
+                    href="https://wa.me/917723810551?text=Hi%20Casa%20Milano%21%20I%20would%20like%20to%20inquire%20about%20booking%20a%20table%20%2F%20session." 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => soundManager.playSelect()}
+                    className="flex items-center justify-between p-2 rounded-xl bg-emerald-950/40 hover:bg-emerald-900/60 border border-emerald-500/40 text-emerald-300 hover:text-emerald-100 transition-all group cursor-pointer"
                   >
-                    <Phone className="w-4 h-4 text-cyan-400" />
-                    <span>+1 (555) 728-4668</span>
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-7 h-7 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400">
+                        <MessageCircle className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold font-display uppercase tracking-wider">WhatsApp Direct</div>
+                        <div className="text-[11px] font-mono text-emerald-400">+91 77238 10551</div>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-mono uppercase bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded">Chat</span>
                   </a>
+
+                  {/* Instagram Profile */}
                   <a 
-                    href="mailto:concierge@casamilanogaming.com" 
-                    className="flex items-center gap-2 text-sm text-slate-200 hover:text-cyan-400 transition-colors font-mono py-1"
+                    href="https://www.instagram.com/casamilano.cm?utm_source=ig_web_button_share_sheet&xtok=ZDNlZDc0MzIxNw==" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => soundManager.playSelect()}
+                    className="flex items-center justify-between p-2 rounded-xl bg-gradient-to-r from-pink-950/40 via-purple-950/40 to-amber-950/30 hover:from-pink-900/60 hover:to-purple-900/60 border border-pink-500/30 text-pink-300 hover:text-pink-100 transition-all group cursor-pointer"
                   >
-                    <Mail className="w-4 h-4 text-cyan-400" />
-                    <span>concierge@casamilanogaming.com</span>
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-7 h-7 rounded-lg bg-pink-500/20 flex items-center justify-center text-pink-400">
+                        <Instagram className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold font-display uppercase tracking-wider">Instagram Feed</div>
+                        <div className="text-[11px] font-mono text-pink-300">@casamilano.cm</div>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-mono uppercase bg-pink-500/20 text-pink-300 px-2 py-0.5 rounded">Follow</span>
+                  </a>
+
+                  {/* Direct Phone */}
+                  <a 
+                    href="tel:+917723810551" 
+                    className="flex items-center gap-2 text-xs text-slate-300 hover:text-cyan-400 transition-colors font-mono py-1 px-1"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>Call: +91 77238 10551</span>
                   </a>
                 </div>
               </div>
@@ -238,7 +274,7 @@ export const ClosingVisit: React.FC<ClosingVisitProps> = ({ onOpenBooking }) => 
                     soundManager.playSelect();
                     onOpenBooking();
                   }}
-                  className="w-full py-2.5 px-4 text-xs font-bold uppercase tracking-wider text-cyan-300 hover:text-black bg-cyan-950/60 hover:bg-cyan-400 rounded-xl border border-cyan-800/60 hover:border-cyan-400 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+                  className="w-full py-2.5 px-4 text-xs font-bold uppercase tracking-wider text-cyan-300 hover:text-black bg-cyan-950/60 hover:bg-cyan-400 rounded-xl border border-cyan-800/60 hover:border-cyan-400 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 cursor-pointer"
                 >
                   Send Direct Inquiry
                 </button>
@@ -249,10 +285,11 @@ export const ClosingVisit: React.FC<ClosingVisitProps> = ({ onOpenBooking }) => 
 
         </div>
 
-        {/* Minimal Branded Footer */}
-        <footer className="border-t border-white/5 pt-8 pb-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+        {/* Minimal Branded Footer with Social Channels */}
+        <footer className="border-t border-white/5 pt-8 pb-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           
           <div className="flex items-center gap-3">
+            <img src="/images/casamilano-logo.svg" alt="Casa Milano Crest" className="w-6 h-6 object-contain rounded-full" />
             <span className="font-display font-bold text-white uppercase tracking-wider text-sm">
               CASA MILANO
             </span>
@@ -260,16 +297,40 @@ export const ClosingVisit: React.FC<ClosingVisitProps> = ({ onOpenBooking }) => 
             <span>© {new Date().getFullYear()} Casa Milano Gaming Café. All rights reserved.</span>
           </div>
 
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
             <a href="#about" className="hover:text-cyan-400 transition-colors">Origin</a>
             <a href="#arena" className="hover:text-cyan-400 transition-colors">The Arena</a>
             <a href="#cafe" className="hover:text-cyan-400 transition-colors">Café</a>
             <a href="#gallery" className="hover:text-cyan-400 transition-colors">Gallery</a>
             <a href="#reviews" className="hover:text-cyan-400 transition-colors">Reviews</a>
             <a href="#visit" className="hover:text-cyan-400 transition-colors">Visit</a>
+            
+            <span className="text-slate-700 hidden sm:inline">|</span>
+            
+            {/* Social Links in Footer */}
+            <a 
+              href="https://www.instagram.com/casamilano.cm?utm_source=ig_web_button_share_sheet&xtok=ZDNlZDc0MzIxNw==" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 text-pink-400 hover:text-pink-300 transition-colors"
+            >
+              <Instagram className="w-3.5 h-3.5" />
+              <span>@casamilano.cm</span>
+            </a>
+            
+            <a 
+              href="https://wa.me/917723810551" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 transition-colors"
+            >
+              <MessageCircle className="w-3.5 h-3.5" />
+              <span>WhatsApp: 77238 10551</span>
+            </a>
+
             <button
               onClick={handleScrollToTop}
-              className="flex items-center gap-1 text-slate-400 hover:text-cyan-400 transition-colors p-1"
+              className="flex items-center gap-1 text-slate-400 hover:text-cyan-400 transition-colors p-1 cursor-pointer"
               aria-label="Scroll back to top"
             >
               <span>Top</span>

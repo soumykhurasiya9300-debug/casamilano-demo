@@ -10,7 +10,7 @@ export interface CasaMilanoIntroProps {
 }
 
 export const CasaMilanoIntro: React.FC<CasaMilanoIntroProps> = ({
-  logoSrc = '/logo.svg',
+  logoSrc = '/images/casamilano-intro-logo.svg',
   sound = true,
   reducedMotion = 'auto',
   onComplete,

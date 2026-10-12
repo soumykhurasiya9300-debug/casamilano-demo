@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, CheckCircle2, AlertCircle, Gamepad2, Calendar, Users, Phone, Clock, Sparkles, Copy, Check } from 'lucide-react';
+import { X, CheckCircle2, AlertCircle, Gamepad2, Calendar, Users, Phone, Clock, Sparkles, Copy, Check, MessageCircle, Instagram } from 'lucide-react';
 import { GamingActivityId, BookingFormData } from '../types';
 import { soundManager } from '../utils/audio';
 
@@ -103,6 +103,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       setCopiedSummary(true);
       setTimeout(() => setCopiedSummary(false), 2000);
     });
+  };
+
+  const handleDirectWhatsApp = () => {
+    soundManager.playConfirm();
+    const summary = `Hi Casa Milano! I'd like to book a session at Casa Milano Gaming Café:\n• Guest: ${formData.fullName || 'Guest'}\n• Contact: ${formData.contact || 'Not provided'}\n• Experience: ${formData.activity.toUpperCase()}\n• Date: ${formData.date} at ${formData.timeSlot}\n• Party Size: ${formData.partySize} Players${formData.notes ? `\n• Notes: ${formData.notes}` : ''}`;
+    window.open(`https://wa.me/917723810551?text=${encodeURIComponent(summary)}`, '_blank', 'noopener,noreferrer');
   };
 
   const resetForm = () => {
@@ -303,18 +309,27 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 />
               </div>
 
-              {/* Submit CTA */}
-              <div className="pt-2">
+              {/* Dual Action CTAs: Submit In-App + Instant WhatsApp */}
+              <div className="pt-2 space-y-2.5">
                 <button
                   type="submit"
-                  className="w-full py-4 px-6 text-sm font-bold uppercase tracking-wider text-black bg-cyan-400 hover:bg-cyan-300 rounded-xl transition-all shadow-[0_0_25px_rgba(6,182,212,0.4)] hover:shadow-[0_0_35px_rgba(6,182,212,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+                  className="w-full py-3.5 px-6 text-sm font-bold uppercase tracking-wider text-black bg-cyan-400 hover:bg-cyan-300 rounded-xl transition-all shadow-[0_0_25px_rgba(6,182,212,0.4)] hover:shadow-[0_0_35px_rgba(6,182,212,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 cursor-pointer"
                 >
                   Submit Session Request
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleDirectWhatsApp}
+                  className="w-full py-3 px-6 text-xs font-bold uppercase tracking-wider text-black bg-emerald-400 hover:bg-emerald-300 rounded-xl transition-all shadow-[0_0_20px_rgba(16,185,129,0.35)] flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <MessageCircle className="w-4 h-4 fill-black" />
+                  <span>Instant Book via WhatsApp (+91 77238 10551)</span>
                 </button>
               </div>
 
               <p className="text-[11px] text-slate-400 text-center font-mono">
-                No immediate payment required · Walk-ins also welcome daily
+                No immediate payment required · Walk-ins and table bookings welcome daily
               </p>
             </form>
           </div>
@@ -353,19 +368,37 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               </div>
             </div>
 
-            {/* Integration Notice as required by prompt */}
-            <div className="text-[11px] text-slate-400 bg-cyan-950/20 border border-cyan-800/30 rounded-xl p-3 text-left mb-6 leading-relaxed">
-              <span className="text-cyan-400 font-bold block mb-1">Demo Integration Note:</span>
-              This demo preview validates all required inputs client-side without storing live records on a remote server. 
-              To connect this to your café's live reservation software (e.g., SevenRooms, OpenTable, or custom POS API), 
-              the endpoint can be hooked up instantly.
+            {/* Direct Social Confirmation Actions */}
+            <div className="p-3 mb-6 rounded-2xl bg-slate-900/80 border border-slate-800 text-left space-y-2">
+              <div className="text-[11px] font-mono text-cyan-400 uppercase tracking-wider font-semibold">
+                Direct Confirmation
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={handleDirectWhatsApp}
+                  className="py-2.5 px-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                >
+                  <MessageCircle className="w-3.5 h-3.5 fill-black" />
+                  <span>Send to WhatsApp Concierge</span>
+                </button>
+                <a
+                  href="https://www.instagram.com/casamilano.cm?utm_source=ig_web_button_share_sheet&xtok=ZDNlZDc0MzIxNw=="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="py-2.5 px-3 rounded-xl bg-gradient-to-r from-pink-600 to-amber-500 hover:from-pink-500 hover:to-amber-400 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-center cursor-pointer"
+                >
+                  <Instagram className="w-3.5 h-3.5" />
+                  <span>Follow @casamilano.cm</span>
+                </a>
+              </div>
             </div>
 
             <div className="flex flex-col sm:flex-row items-center gap-3">
               <button
                 type="button"
                 onClick={handleCopySummary}
-                className="w-full sm:w-1/2 py-2.5 px-4 text-xs font-semibold uppercase tracking-wider text-slate-200 bg-slate-800 hover:bg-slate-700 rounded-xl border border-slate-700 transition-colors inline-flex items-center justify-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+                className="w-full sm:w-1/2 py-2.5 px-4 text-xs font-semibold uppercase tracking-wider text-slate-200 bg-slate-800 hover:bg-slate-700 rounded-xl border border-slate-700 transition-colors inline-flex items-center justify-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 cursor-pointer"
               >
                 {copiedSummary ? <Check className="w-4 h-4 text-cyan-400" /> : <Copy className="w-4 h-4" />}
                 <span>{copiedSummary ? 'Copied Details' : 'Copy Summary'}</span>
@@ -377,7 +410,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   resetForm();
                   onClose();
                 }}
-                className="w-full sm:w-1/2 py-2.5 px-4 text-xs font-bold uppercase tracking-wider text-black bg-cyan-400 hover:bg-cyan-300 rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+                className="w-full sm:w-1/2 py-2.5 px-4 text-xs font-bold uppercase tracking-wider text-black bg-cyan-400 hover:bg-cyan-300 rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 cursor-pointer"
               >
                 Close & Return
               </button>

@@ -8,6 +8,7 @@ import { ReviewSection } from './components/ReviewSection';
 import { ClosingVisit } from './components/ClosingVisit';
 import { BookingModal } from './components/BookingModal';
 import { CasaMilanoIntro } from './components/CasaMilanoIntro';
+import { FloatingSocialBar } from './components/FloatingSocialBar';
 import { GamingActivityId } from './types';
 
 export default function App() {
@@ -33,7 +34,7 @@ export default function App() {
       {/* Interactive Snooker Intro Canvas — Appears first on load */}
       {showIntro && (
         <CasaMilanoIntro
-          logoSrc="/logo.svg"
+          logoSrc="/images/casamilano-intro-logo.svg"
           sound={true}
           reducedMotion="auto"
           onComplete={handleIntroComplete}
@@ -72,6 +73,9 @@ export default function App() {
           {/* CLOSING EXPERIENCE & VISIT LOUNGE */}
           <ClosingVisit onOpenBooking={() => handleOpenBooking('snooker')} />
         </main>
+
+        {/* Floating Social Connect Dock (WhatsApp & Instagram) */}
+        <FloatingSocialBar onOpenBooking={() => handleOpenBooking('snooker')} />
 
         {/* Interactive Reservation & Inquiry Modal */}
         <BookingModal

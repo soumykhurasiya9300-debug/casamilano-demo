@@ -8,7 +8,7 @@ export interface IntroPageProps {
 export const IntroPage: React.FC<IntroPageProps> = ({ onEnter }) => {
   return (
     <CasaMilanoIntro
-      logoSrc="/logo.svg"
+      logoSrc="/images/casamilano-intro-logo.svg"
       sound={true}
       reducedMotion="auto"
       onComplete={() => onEnter('hero')}

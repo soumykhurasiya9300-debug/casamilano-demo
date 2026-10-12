@@ -204,7 +204,7 @@ export function mountCasaMilanoIntro(options) {
   let T0 = null; // scene time when the logo became ready (start of arrival timeline)
   let instrShown = false;
 
-  let logoImg = null, logoAspect = 3.4, logoIsPlaceholder = false;
+  let logoImg = null, logoAspect = 960 / 540, logoIsPlaceholder = false;
   let bgImg = null, vigImg = null, tableImg = null, noisePattern = null;
   let dust = [];
 
@@ -357,21 +357,110 @@ export function mountCasaMilanoIntro(options) {
   // ---- logo ---------------------------------------------------------------------------------
   function makePlaceholderLogo() {
     const c = document.createElement('canvas');
-    c.width = 960; c.height = 282;
+    c.width = 960; c.height = 540;
     const g = c.getContext('2d');
+    if (!g) return c;
+
+    const W0 = 960, H0 = 540, cx = 480;
+    
+    // Background plate with rounded corners
+    g.save();
+    g.fillStyle = '#080d1e';
+    g.beginPath();
+    g.roundRect(30, 20, 900, 500, 32);
+    g.fill();
+
+    // Outer & inner gold filigree rim
+    g.strokeStyle = '#dfba67';
+    g.lineWidth = 2.5;
+    g.stroke();
+
+    g.strokeStyle = '#8c6621';
+    g.lineWidth = 1.5;
+    g.setLineDash([6, 8]);
+    g.beginPath();
+    g.roundRect(44, 34, 872, 472, 24);
+    g.stroke();
+    g.setLineDash([]);
+
+    // Crossed cue sticks
+    g.save();
+    g.translate(cx, 168);
+    for (const ang of [0.45, -0.45]) {
+      g.save();
+      g.rotate(ang);
+      g.fillStyle = '#2d68c4'; g.fillRect(-220, -3, 10, 6);
+      g.fillStyle = '#f0efe8'; g.fillRect(-210, -3.5, 12, 7);
+      g.fillStyle = '#c4975d'; g.fillRect(-198, -4, 300, 8);
+      g.fillStyle = '#dfba67'; g.fillRect(102, -6, 6, 12);
+      g.fillStyle = '#2e170c'; g.fillRect(108, -7, 110, 14);
+      g.fillStyle = '#dfba67'; g.fillRect(218, -8, 6, 16);
+      g.restore();
+    }
+    g.restore();
+
+    // Crown Finial at top
+    g.save();
+    g.translate(cx, 72);
+    g.fillStyle = '#dfba67';
+    g.fillRect(-35, 14, 70, 4);
+    g.beginPath();
+    g.moveTo(0, -14); g.lineTo(12, 12); g.lineTo(-12, 12); g.closePath();
+    g.fill();
+    g.beginPath();
+    g.arc(0, -16, 3, 0, Math.PI * 2);
+    g.fillStyle = '#fffdf0';
+    g.fill();
+    g.restore();
+
+    // Central CM Monogram
     g.textAlign = 'center';
     g.textBaseline = 'middle';
-    g.fillStyle = '#f3f1ea';
-    g.font = '700 104px Georgia, "Times New Roman", serif';
-    try { g.letterSpacing = '10px'; } catch (e) {}
-    g.fillText('CASA MILANO', 480, 108);
-    g.fillStyle = '#c4a96b';
-    g.font = '600 32px "Helvetica Neue", Arial, sans-serif';
-    try { g.letterSpacing = '16px'; } catch (e) {}
-    g.fillText('GAMING CAF\u00c9', 480, 206);
-    g.strokeStyle = 'rgba(196,169,107,.65)';
-    g.lineWidth = 2;
-    g.beginPath(); g.moveTo(200, 250); g.lineTo(760, 250); g.stroke();
+    g.fillStyle = '#fff6d1';
+    g.font = '800 84px "Times New Roman", Georgia, serif';
+    g.fillText('CM', cx, 195);
+
+    // 8-Ball Centerpiece
+    g.beginPath(); g.arc(cx, 245, 26, 0, Math.PI * 2);
+    g.fillStyle = '#080a0f'; g.fill();
+    g.strokeStyle = '#dfba67'; g.lineWidth = 2.5; g.stroke();
+    g.beginPath(); g.arc(cx, 245, 11, 0, Math.PI * 2);
+    g.fillStyle = '#f8f9fc'; g.fill();
+    g.fillStyle = '#080a0f';
+    g.font = '900 13px sans-serif';
+    g.fillText('8', cx, 246);
+
+    // "CASA MILANO" Grand Wordmark
+    const goldGrad = g.createLinearGradient(cx - 200, 0, cx + 200, 0);
+    goldGrad.addColorStop(0, '#fffdf2');
+    goldGrad.addColorStop(0.3, '#fceab3');
+    goldGrad.addColorStop(0.7, '#e2c172');
+    goldGrad.addColorStop(1, '#dfba67');
+    g.fillStyle = goldGrad;
+    g.font = '900 58px "Times New Roman", Georgia, serif';
+    try { (g as any).letterSpacing = '12px'; } catch (e) {}
+    g.fillText('CASA MILANO', cx, 360);
+
+    // Subtitle Line & Text
+    g.strokeStyle = '#dfba67';
+    g.lineWidth = 1.5;
+    g.beginPath();
+    g.moveTo(cx - 300, 410); g.lineTo(cx - 160, 410);
+    g.moveTo(cx + 160, 410); g.lineTo(cx + 300, 410);
+    g.stroke();
+
+    g.fillStyle = '#f4de9c';
+    g.font = '700 18px "Helvetica Neue", Arial, sans-serif';
+    try { (g as any).letterSpacing = '7px'; } catch (e) {}
+    g.fillText('LUXURIOUS GAMING CAF\u00c9', cx, 412);
+
+    // Tri-Activity Symbols
+    g.fillStyle = '#c4a456';
+    g.font = '14px sans-serif';
+    try { (g as any).letterSpacing = '28px'; } catch (e) {}
+    g.fillText('\ud83c\udfae   \ud83c\udfb1   \ud83c\udfce\ufe0f', cx, 465);
+
+    g.restore();
     return c;
   }
   function loadLogo() {
@@ -401,9 +490,12 @@ export function mountCasaMilanoIntro(options) {
     const instrTop = H - instrH;
     const padTop = Math.max(60, H * 0.04);
     const avail = Math.max(160, instrTop - padTop - 6);
-    const logoZoneH = avail * 0.33, gapH = avail * 0.13, tableZoneH = avail * 0.54;
+    const logoZoneH = avail * 0.35, gapH = avail * 0.11, tableZoneH = avail * 0.54;
 
-    let lh = logoZoneH * 0.92, lw = lh * logoAspect;
+    let lh = logoAspect < 1.3 
+      ? Math.min(logoZoneH * 1.15, Math.min(avail * 0.38, 220)) 
+      : logoZoneH * 0.92;
+    let lw = lh * logoAspect;
     const maxLW = Math.min(W * 0.72, 620);
     if (lw > maxLW) { lw = maxLW; lh = lw / logoAspect; }
     const lcx = W / 2, lcy = padTop + logoZoneH / 2;
@@ -1321,7 +1413,7 @@ export function mountCasaMilanoIntro(options) {
     if (destroyed) return;
     if (img) { logoImg = img; logoAspect = img.naturalWidth / img.naturalHeight; logoIsPlaceholder = false; }
     else {
-      logoImg = makePlaceholderLogo(); logoAspect = 960 / 282; logoIsPlaceholder = true;
+      logoImg = makePlaceholderLogo(); logoAspect = 960 / 540; logoIsPlaceholder = true;
       if (typeof console !== 'undefined') console.warn('[Casa Milano intro] No logo loaded \u2014 showing the built-in placeholder. Pass a valid logoSrc.');
     }
     layout();
